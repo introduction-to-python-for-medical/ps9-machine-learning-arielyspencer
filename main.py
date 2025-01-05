@@ -27,26 +27,22 @@ from sklearn.model_selection import train_test_split
 x_train, x_test, y_train, y_test = train_test_split(x_scaled, y, test_size=0.2, random_state=42)
 
 
-# prompt: i want to train the GridSearchCV model, with these parameters SVC(C=10, gamma=0.1, kernel='rbf')
 
 from sklearn.svm import SVC
-from sklearn.model_selection import GridSearchCV
-from sklearn.model_selection import cross_val_score
+from sklearn.metrics import accuracy_score
 
-# Define the parameter grid
-param_grid = {'C': [10], 'gamma': [0.1], 'kernel': ['rbf']}
-
-# Create the SVC model
-svc = SVC()
-
-# Create the GridSearchCV object
-grid_search = GridSearchCV(svc, param_grid, cv=3) # cv is the number of cross-validation folds
+# Initialize the SVC model
+model = SVC(kernel='linear', C=1) # You can experiment with different kernels and C values
 
 # Train the model
-grid_search.fit(x_train, y_train)
+model.fit(x_train, y_train)
 
-# Print the best parameters and score
-print("Best parameters:", grid_search.best_params_)
-print("Best cross-validation score:", grid_search.best_score_)
+# Make predictions on the test set
+y_pred = model.predict(x_test)
+
+# Evaluate the model
+accuracy = accuracy_score(y_test, y_pred)
+print(f"Accuracy: {accuracy}")
+
 
 
