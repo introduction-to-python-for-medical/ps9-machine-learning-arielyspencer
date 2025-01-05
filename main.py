@@ -28,21 +28,26 @@ x_train, x_test, y_train, y_test = train_test_split(x_scaled, y, test_size=0.2, 
 
 
 
+# prompt: i want to train the GridSearchCV model
+
+from sklearn.model_selection import GridSearchCV
 from sklearn.svm import SVC
-from sklearn.metrics import accuracy_score
 
-# Initialize the SVC model
-model = SVC(kernel='linear', C=1) # You can experiment with different kernels and C values
+# Define the parameter grid for GridSearchCV
+param_grid = {'C': [0.1, 1, 10, 100], 'gamma': [1, 0.1, 0.01, 0.001], 'kernel': ['rbf']}
 
-# Train the model
-model.fit(x_train, y_train)
+# Create an SVC model
+svc = SVC()
 
-# Make predictions on the test set
-y_pred = model.predict(x_test)
+# Create GridSearchCV object
+grid = GridSearchCV(svc, param_grid, refit=True, verbose=3)
 
-# Evaluate the model
-accuracy = accuracy_score(y_test, y_pred)
-print(f"Accuracy: {accuracy}")
+# Fit the GridSearchCV object to the training data
+grid.fit(x_train, y_train)
 
+# Print the best parameters and best score
+print(grid.best_params_)
+print(grid.best_estimator_)
 
-
+# Make predictions on the test set using the best model found by GridSearchCV
+grid_predictions = grid.predict(x_test)
