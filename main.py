@@ -11,7 +11,6 @@ target = 'status'
 x = df[features]
 y = df[target]
 
-
 # prompt: i want to scale my data using minmax scaler
 
 from sklearn.preprocessing import MinMaxScaler
